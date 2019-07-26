@@ -7,11 +7,20 @@ task1('data.xml');
 $fruits = [
     'Fruits' => [
         'Apples' => 80,
-        'Bananas' => 100,
     ],
     'Vegetables' => [
-        'Tomato' => 50,
+        'Tomatos' => 50,
     ],
 ];
 
 task2($fruits);
+
+$numbers = [];
+
+for($i = 1; $i <=50; $i++){
+    $numbers[] = rand(1, 100);
+}
+
+//task3($numbers);
+
+

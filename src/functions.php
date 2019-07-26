@@ -41,25 +41,71 @@ function task2($array)
 {
     file_put_contents('output.json', json_encode($array));
 
+    $json1 = json_decode(file_get_contents('output.json'), true);
+
     $random = rand(0,1);
     if ($random){
-        $newArr = json_decode(file_get_contents('output.json'), true);
-        $newArr['Fruits']['Apples'] = 120;
 
-        file_put_contents('output2.json', json_encode($newArr));
-    }else {
-        file_put_contents('output2.json', json_encode($array));
+        echo 'Массив изменен<br>';
+        $array['Fruits']['Apples'] = 120;
+
     }
+
+    file_put_contents('output2.json', json_encode($array));
 
     $output = json_decode(file_get_contents('output.json'), true);
     $output2 = json_decode(file_get_contents('output2.json'), true);
 
-    $result = array_diff_assoc($output['Fruits'], $output2['Fruits']);
+//    $diff1 = array_diff_assoc($output, $output2);
+//    $diff2 = array_diff_assoc($output2, $output);
+    /**
+     * @param $array1
+     * @param $array2
+     * @return array
+     * Returns difference of two n-dimensional arrays
+     */
+    function array_diff_assoc_recursive($array1, $array2) {
+        $difference=array();
+        foreach($array1 as $key => $value) {
+            if( is_array($value) ) {
+                if( !isset($array2[$key]) || !is_array($array2[$key]) ) {
+                    $difference[$key] = $value;
+                } else {
+                    $new_diff = array_diff_assoc_recursive($value, $array2[$key]);
+                    if( !empty($new_diff) )
+                        $difference[$key] = $new_diff;
+                }
+            } else if( !array_key_exists($key,$array2) || $array2[$key] !== $value ) {
+                $difference[$key] = $value;
+            }
+        }
+        return $difference;
+    }
 
-    if($result){
-        echo 'Файлы отличаются ';
-        print_r($result);
+    $diff1 = array_diff_assoc_recursive($output, $output2);
+    $diff2 = array_diff_assoc_recursive($output2, $output);
+
+    if(!empty($diff1 || $diff2)){
+        echo 'Разница в массивах: ';
+        echo '<pre>';
+        print_r($diff1);
+        print_r($diff2);
+
     }else{
-        echo 'Файлы одинаковые';
+        echo 'Разницы нет<br>';
     }
 }
+
+//function task3(array $array)
+//{
+//    $file = fopen('file.csv', 'w+');
+//
+//    fputcsv($file, $array);
+//
+//    $data = fgetcsv($file);
+//
+//    var_dump($data);
+//
+//    fclose($file);
+//}
+
