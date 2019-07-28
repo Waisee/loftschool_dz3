@@ -118,7 +118,17 @@ function task3(array $array)
         }
     }
 
-    echo 'Сумма четных чисел массива: ' . array_sum($ret);
+    echo 'Сумма четных чисел массива: ' . array_sum($ret). '<br><br>';
+
+}
+
+function task4($url)
+{
+    $json = file_get_contents($url);
+    $dataArray = json_decode($json, true);
+
+    echo 'title: ' . $dataArray['query']['pages']['15580374']['title'] . '<br>';
+    echo 'page_id: ' . $dataArray['query']['pages']['15580374']['pageid'] . '<br>';
 
 }
 
