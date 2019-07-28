@@ -18,9 +18,9 @@ task2($fruits);
 $numbers = [];
 
 for($i = 1; $i <=50; $i++){
-    $numbers[] = rand(1, 100);
+    $numbers[] = array(rand(1, 100));
 }
 
-//task3($numbers);
+task3($numbers);
 
 

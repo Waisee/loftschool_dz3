@@ -47,11 +47,11 @@ function task2($array)
     if ($random){
 
         echo 'Массив изменен<br>';
-        $array['Fruits']['Apples'] = 120;
+        $json1['Fruits']['Apples'] = 120;
 
     }
 
-    file_put_contents('output2.json', json_encode($array));
+    file_put_contents('output2.json', json_encode($json1));
 
     $output = json_decode(file_get_contents('output.json'), true);
     $output2 = json_decode(file_get_contents('output2.json'), true);
@@ -96,16 +96,29 @@ function task2($array)
     }
 }
 
-//function task3(array $array)
-//{
-//    $file = fopen('file.csv', 'w+');
-//
-//    fputcsv($file, $array);
-//
-//    $data = fgetcsv($file);
-//
-//    var_dump($data);
-//
-//    fclose($file);
-//}
+function task3(array $array)
+{
+    echo '<pre>';
+
+    $file = fopen('file.csv', 'w');
+
+    if(!$file){
+        die("Can't open file");
+    }
+    foreach ($array as $item){
+        fputcsv($file, $item);
+    }
+
+    $newfile = fopen('file.csv', 'r');
+    $ret = [];
+
+    while($str = fgetcsv($newfile)){
+        if($str[0] % 2 == 0){
+            $ret[] = $str[0];
+        }
+    }
+
+    echo 'Сумма четных чисел массива: ' . array_sum($ret);
+
+}
 
